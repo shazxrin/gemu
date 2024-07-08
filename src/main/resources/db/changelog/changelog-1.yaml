@@ -1,0 +1,118 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719547366720-1
+      author: rin
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_game
+                  name: id
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: external_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: description
+                  type: TEXT
+            tableName: game
+  - changeSet:
+      id: 1719547366720-3
+      author: rin
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_platforms
+                  name: id
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: external_id
+                  type: BIGINT
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+            tableName: platforms
+  - changeSet:
+      id: 1719547366720-2
+      author: rin
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_game_platforms
+                  name: game_id
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_game_platforms
+                  name: platforms_id
+                  type: VARCHAR(255)
+            tableName: game_platforms
+  - changeSet:
+      id: 1719547366720-4
+      author: rin
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: game_id
+            baseTableName: game_platforms
+            constraintName: fk_gampla_on_game
+            referencedColumnNames: id
+            referencedTableName: game
+  - changeSet:
+      id: 1719547366720-5
+      author: rin
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: platforms_id
+            baseTableName: game_platforms
+            constraintName: fk_gampla_on_platform
+            referencedColumnNames: id
+            referencedTableName: platforms
+  - changeSet:
+      id: 1719547366775-1
+      author: rin
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_igdbinfo
+                  name: id
+                  type: VARCHAR(255)
+              - column:
+                  name: expiry_date_time
+                  type: DATETIME
+              - column:
+                  name: access_token
+                  type: VARCHAR(255)
+            tableName: igdb_info
+

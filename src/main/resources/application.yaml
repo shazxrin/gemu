@@ -1,0 +1,37 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/gemu
+    username: postgres
+    password: password
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.yaml
+  threads:
+    virtual:
+      enabled: true
+server:
+  error:
+    include-stacktrace: never
+    include-message: always
+logging:
+  level:
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - "health"
+          - "metrics"
+gemu:
+  igdb:
+    client-id: CLIENT_ID
+    client-secret: CLIENT_SECRET
+  platforms:
+    PlayStation Portable,
+    PlayStation Vita,
+    PlayStation 4,
+    PlayStation 5,
+    Game Boy Advance,
+    Nintendo DS,
+    Nintendo 3DS,
+    Nintendo Switch
