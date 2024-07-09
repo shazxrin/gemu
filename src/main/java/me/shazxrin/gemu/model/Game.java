@@ -24,10 +24,12 @@ public class Game {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @ManyToMany
-    @JoinTable(name = "game_platforms",
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "game_platforms",
             joinColumns = @JoinColumn(name = "game_id"),
-            inverseJoinColumns = @JoinColumn(name = "platforms_id"))
+            inverseJoinColumns = @JoinColumn(name = "platforms_id")
+    )
     private Set<Platform> platforms = new LinkedHashSet<>();
 
     public Game() { }
