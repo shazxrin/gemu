@@ -87,16 +87,25 @@ public class GameFetchService {
                     IGDBGameDto[] gameDtos = igdbService.getGamesByPlatformId(platform.getExternalId(), limit, offset);
                     for (IGDBGameDto gameDto : gameDtos) {
                         Game game = gameRepository.findByExternalId(gameDto.id());
+
+                        StringBuilder descriptionBuilder = new StringBuilder();
+                        gameDto.summary().ifPresent(summary -> descriptionBuilder.append(summary));
+                        gameDto.storyline().ifPresent(storyline -> {
+                            if (descriptionBuilder.isEmpty()) {
+                                descriptionBuilder.append(" ");
+                            }
+                            descriptionBuilder.append(storyline);
+                        });
+                        String description = descriptionBuilder.toString();
+
                         if (game == null) {
                             game = new Game(
                                     gameDto.id(),
                                     gameDto.name(),
-                                    gameDto.summary() + "\n" + gameDto.storyline(),
+                                    description,
                                     Set.of(platform)
                             );
                         } else {
-                            String description = gameDto.summary().orElse("") + " " + gameDto.storyline().orElse("");
-                            description = description.strip();
                             game.setDescription(description);
 
                             game.getPlatforms().add(platform);
