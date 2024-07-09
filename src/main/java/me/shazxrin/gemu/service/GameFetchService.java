@@ -80,6 +80,7 @@ public class GameFetchService {
             long limit = 10;
             long totalPages = totalCount / limit;
             long totalGamesProcessed = 0;
+            long totalGamesFailed = 0;
             for (int page = 0; page < totalPages; page++) {
                 long offset = page * limit;
 
@@ -115,6 +116,7 @@ public class GameFetchService {
                     }
                 } catch (IGDBException exception) {
                     log.error("Error occurred while fetching games for {} at page {}", platformName, page, exception);
+                    totalGamesFailed++;
                     continue;
                 }
 
@@ -124,7 +126,13 @@ public class GameFetchService {
                     log.error("Error occurred during backpressure", exception);
                 }
             }
-            log.info("Total games processed for {} is {}", platformName, totalGamesProcessed);
+            log.info(
+                    "Total games processed for {} is {}, success: {}, failed: {}",
+                    platformName,
+                    totalGamesProcessed,
+                    totalGamesProcessed,
+                    totalGamesFailed
+            );
         }
     }
 }
