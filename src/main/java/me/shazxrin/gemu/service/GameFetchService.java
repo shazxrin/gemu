@@ -121,7 +121,7 @@ public class GameFetchService {
                 }
 
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(1500);
                 } catch (InterruptedException exception) {
                     log.error("Error occurred during backpressure", exception);
                 }
