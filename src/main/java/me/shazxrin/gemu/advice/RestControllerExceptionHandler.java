@@ -2,6 +2,7 @@ package me.shazxrin.gemu.advice;
 
 import me.shazxrin.gemu.exception.NotFoundException;
 import me.shazxrin.gemu.exception.StateException;
+import me.shazxrin.gemu.exception.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,6 +21,12 @@ class RestControllerExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(StateException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ProblemDetail handleStateException(StateException ex) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ProblemDetail handleValidationException(ValidationException ex) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 }

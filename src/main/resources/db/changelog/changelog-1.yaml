@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 1719547366720-1
+      id: 1721191441992-1
       author: rin
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -10,7 +10,29 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     primaryKey: true
-                    primaryKeyName: pk_game
+                    primaryKeyName: pk_game_platforms
+                  name: game_id
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_game_platforms
+                  name: platforms_id
+                  type: VARCHAR(255)
+            tableName: game_platforms
+  - changeSet:
+      id: 1721191441992-2
+      author: rin
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_games
                   name: id
                   type: VARCHAR(255)
               - column:
@@ -26,9 +48,75 @@ databaseChangeLog:
               - column:
                   name: description
                   type: TEXT
-            tableName: game
+            tableName: games
   - changeSet:
-      id: 1719547366720-3
+      id: 1721191441992-3
+      author: rin
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_igdb_info
+                  name: id
+                  type: VARCHAR(255)
+              - column:
+                  name: expiry_date_time
+                  type: DATETIME
+              - column:
+                  name: access_token
+                  type: VARCHAR(255)
+            tableName: igdb_info
+  - changeSet:
+      id: 1721191441992-4
+      author: rin
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_library_games
+                  name: id
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: game_id
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: platform_id
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: status
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: ownership
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: hours_played
+                  type: INT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: progress
+                  type: INT
+            tableName: library_games
+  - changeSet:
+      id: 1721191441992-5
       author: rin
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -51,29 +139,29 @@ databaseChangeLog:
                   type: VARCHAR(255)
             tableName: platforms
   - changeSet:
-      id: 1719547366720-2
+      id: 1721191441992-6
       author: rin
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
-        - createTable:
-            columns:
-              - column:
-                  constraints:
-                    nullable: false
-                    primaryKey: true
-                    primaryKeyName: pk_game_platforms
-                  name: game_id
-                  type: VARCHAR(255)
-              - column:
-                  constraints:
-                    nullable: false
-                    primaryKey: true
-                    primaryKeyName: pk_game_platforms
-                  name: platforms_id
-                  type: VARCHAR(255)
-            tableName: game_platforms
+        - addForeignKeyConstraint:
+            baseColumnNames: game_id
+            baseTableName: library_games
+            constraintName: FK_LIBRARY_GAMES_ON_GAME
+            referencedColumnNames: id
+            referencedTableName: games
   - changeSet:
-      id: 1719547366720-4
+      id: 1721191441992-7
+      author: rin
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: platform_id
+            baseTableName: library_games
+            constraintName: FK_LIBRARY_GAMES_ON_PLATFORM
+            referencedColumnNames: id
+            referencedTableName: platforms
+  - changeSet:
+      id: 1721191441992-8
       author: rin
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -82,9 +170,9 @@ databaseChangeLog:
             baseTableName: game_platforms
             constraintName: fk_gampla_on_game
             referencedColumnNames: id
-            referencedTableName: game
+            referencedTableName: games
   - changeSet:
-      id: 1719547366720-5
+      id: 1721191441992-9
       author: rin
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -94,25 +182,4 @@ databaseChangeLog:
             constraintName: fk_gampla_on_platform
             referencedColumnNames: id
             referencedTableName: platforms
-  - changeSet:
-      id: 1719547366775-1
-      author: rin
-      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      changes:
-        - createTable:
-            columns:
-              - column:
-                  constraints:
-                    nullable: false
-                    primaryKey: true
-                    primaryKeyName: pk_igdbinfo
-                  name: id
-                  type: VARCHAR(255)
-              - column:
-                  name: expiry_date_time
-                  type: DATETIME
-              - column:
-                  name: access_token
-                  type: VARCHAR(255)
-            tableName: igdb_info
 
