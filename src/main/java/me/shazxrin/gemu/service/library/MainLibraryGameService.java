@@ -89,7 +89,7 @@ public class MainLibraryGameService implements LibraryGameService {
             int hoursPlayed,
             int progress
     ) throws NotFoundException, ValidationException {
-        Optional<LibraryGame> libraryGameOpt = libraryGameRepository.findById(gameId);
+        Optional<LibraryGame> libraryGameOpt = libraryGameRepository.findByGameId(gameId);
         LibraryGame libraryGame = libraryGameOpt.orElseThrow(() -> new NotFoundException("Library game not found."));
 
         if (!libraryGame.getGame().getId().equals(platformId)) {
