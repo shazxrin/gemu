@@ -8,6 +8,8 @@ import me.shazxrin.gemu.model.LibraryGameOwnership;
 import me.shazxrin.gemu.model.LibraryGameStatus;
 import org.springframework.data.domain.Page;
 
+import java.util.Optional;
+
 public interface LibraryGameService {
     void addGameToLibrary(
             String gameId,
@@ -21,6 +23,8 @@ public interface LibraryGameService {
     Page<LibraryGame> getAllGamesInLibrary(int page);
 
     Page<LibraryGame> getAllGamesInLibraryByPlatformId(String platformId, int page);
+
+    Optional<LibraryGame> getGameInLibrary(String gameId);
 
     void updateGameInLibrary(
             String gameId,

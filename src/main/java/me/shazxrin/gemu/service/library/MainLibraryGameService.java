@@ -76,6 +76,11 @@ public class MainLibraryGameService implements LibraryGameService {
     }
 
     @Override
+    public Optional<LibraryGame> getGameInLibrary(String gameId) {
+        return libraryGameRepository.findByGameId(gameId);
+    }
+
+    @Override
     public void updateGameInLibrary(
             String gameId,
             String platformId,
