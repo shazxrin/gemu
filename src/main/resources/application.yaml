@@ -35,3 +35,5 @@ gemu:
     Nintendo DS,
     Nintendo 3DS,
     Nintendo Switch
+  fetch:
+    schedule: "* 0 12 * * */1"
