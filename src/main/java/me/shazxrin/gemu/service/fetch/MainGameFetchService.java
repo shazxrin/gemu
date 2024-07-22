@@ -5,8 +5,8 @@ import me.shazxrin.gemu.igdb.dto.IGDBGameDto;
 import me.shazxrin.gemu.igdb.dto.IGDBPlatformDto;
 import me.shazxrin.gemu.igdb.exception.IGDBException;
 import me.shazxrin.gemu.igdb.service.IGDBService;
-import me.shazxrin.gemu.model.Game;
-import me.shazxrin.gemu.model.Platform;
+import me.shazxrin.gemu.entity.Game;
+import me.shazxrin.gemu.entity.Platform;
 import me.shazxrin.gemu.repository.GameRepository;
 import me.shazxrin.gemu.repository.PlatformRepository;
 import org.slf4j.Logger;
@@ -30,10 +30,10 @@ public class MainGameFetchService implements GameFetchService {
 
     @Autowired
     public MainGameFetchService(
-            IGDBService igdbService,
-            GameRepository gameRepository,
-            PlatformRepository platformRepository,
-            @Value("${gemu.platforms}") List<String> platformNames
+        IGDBService igdbService,
+        GameRepository gameRepository,
+        PlatformRepository platformRepository,
+        @Value("${gemu.platforms}") List<String> platformNames
     ) {
         this.igdbService = igdbService;
         this.gameRepository = gameRepository;
@@ -102,10 +102,10 @@ public class MainGameFetchService implements GameFetchService {
 
                         if (game == null) {
                             game = new Game(
-                                    gameDto.id(),
-                                    gameDto.name(),
-                                    description,
-                                    Set.of(platform)
+                                gameDto.id(),
+                                gameDto.name(),
+                                description,
+                                Set.of(platform)
                             );
                         } else {
                             game.setDescription(description);
@@ -128,11 +128,11 @@ public class MainGameFetchService implements GameFetchService {
                 }
             }
             log.info(
-                    "Total games processed for {} is {}, success: {}, failed: {}",
-                    platformName,
-                    totalGamesProcessed,
-                    totalGamesProcessed,
-                    totalGamesFailed
+                "Total games processed for {} is {}, success: {}, failed: {}",
+                platformName,
+                totalGamesProcessed,
+                totalGamesProcessed,
+                totalGamesFailed
             );
         }
     }

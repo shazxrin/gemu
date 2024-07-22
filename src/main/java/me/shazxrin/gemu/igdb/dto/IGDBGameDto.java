@@ -5,8 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Optional;
 
 public record IGDBGameDto(
-        @JsonProperty("id") long id,
-        @JsonProperty("name") String name,
-        @JsonProperty("summary") Optional<String> summary,
-        @JsonProperty("storyline") Optional<String> storyline
-) { }
+    @JsonProperty("id") long id,
+    @JsonProperty("name") String name,
+    @JsonProperty("summary") Optional<String> summary,
+    @JsonProperty("storyline") Optional<String> storyline
+) {
+}

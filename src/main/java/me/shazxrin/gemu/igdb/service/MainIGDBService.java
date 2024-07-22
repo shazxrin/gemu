@@ -5,7 +5,7 @@ import me.shazxrin.gemu.igdb.dto.IGDBGameDto;
 import me.shazxrin.gemu.igdb.dto.IGDBPlatformDto;
 import me.shazxrin.gemu.igdb.dto.TwitchTokenDto;
 import me.shazxrin.gemu.igdb.exception.IGDBException;
-import me.shazxrin.gemu.igdb.model.IGDBInfo;
+import me.shazxrin.gemu.igdb.entity.IGDBInfo;
 import me.shazxrin.gemu.igdb.repository.IGDBInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,27 +29,27 @@ public class MainIGDBService implements IGDBService {
 
     @Autowired
     public MainIGDBService(
-            @Value("${gemu.igdb.client-id}") String clientId,
-            @Value("${gemu.igdb.client-secret}") String clientSecret,
-            IGDBInfoRepository igdbInfoRepository
+        @Value("${gemu.igdb.client-id}") String clientId,
+        @Value("${gemu.igdb.client-secret}") String clientSecret,
+        IGDBInfoRepository igdbInfoRepository
     ) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.twitchRestClient = RestClient.builder()
-                .baseUrl("https://id.twitch.tv")
-                .build();
+            .baseUrl("https://id.twitch.tv")
+            .build();
         this.igdbInfoRepository = igdbInfoRepository;
     }
 
     private RestClient buildIGDBRestClient() {
         return RestClient.builder()
-                .baseUrl("https://api.igdb.com/v4")
-                .defaultHeaders(httpHeaders -> {
-                    httpHeaders.add("Content-Type", "application/json");
-                    httpHeaders.add("Client-ID", this.clientId);
-                    httpHeaders.add("Authorization", "Bearer " + this.igdbInfo.getAccessToken());
-                })
-                .build();
+            .baseUrl("https://api.igdb.com/v4")
+            .defaultHeaders(httpHeaders -> {
+                httpHeaders.add("Content-Type", "application/json");
+                httpHeaders.add("Client-ID", this.clientId);
+                httpHeaders.add("Authorization", "Bearer " + this.igdbInfo.getAccessToken());
+            })
+            .build();
     }
 
     private void prepareIGDBRestClient() throws IGDBException {
@@ -68,15 +68,15 @@ public class MainIGDBService implements IGDBService {
 
         // Refetch access token
         ResponseEntity<TwitchTokenDto> twitchTokenResponse = this.twitchRestClient.post()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/oauth2/token")
-                        .queryParam("client_id", this.clientId)
-                        .queryParam("client_secret", this.clientSecret)
-                        .queryParam("grant_type", "client_credentials")
-                        .build()
-                )
-                .retrieve()
-                .toEntity(TwitchTokenDto.class);
+            .uri(uriBuilder -> uriBuilder
+                .path("/oauth2/token")
+                .queryParam("client_id", this.clientId)
+                .queryParam("client_secret", this.clientSecret)
+                .queryParam("grant_type", "client_credentials")
+                .build()
+            )
+            .retrieve()
+            .toEntity(TwitchTokenDto.class);
         if (twitchTokenResponse.getStatusCode() != HttpStatus.OK) {
             throw new IGDBException("Unable to fetch access token");
         }
@@ -85,8 +85,8 @@ public class MainIGDBService implements IGDBService {
 
         if (this.igdbInfo == null) {
             this.igdbInfo = new IGDBInfo(
-                    LocalDateTime.now().plusSeconds(twitchTokenDto.expiresIn()),
-                    twitchTokenDto.accessToken()
+                LocalDateTime.now().plusSeconds(twitchTokenDto.expiresIn()),
+                twitchTokenDto.accessToken()
             );
         } else {
             this.igdbInfo.setExpiryDateTime(LocalDateTime.now().plusSeconds(twitchTokenDto.expiresIn()));
@@ -101,11 +101,11 @@ public class MainIGDBService implements IGDBService {
         prepareIGDBRestClient();
 
         ResponseEntity<T> responseEntity = this.igdbRestClient.post()
-                .uri(endpoint)
-                .contentType(MediaType.TEXT_PLAIN)
-                .body(query)
-                .retrieve()
-                .toEntity(entityClass);
+            .uri(endpoint)
+            .contentType(MediaType.TEXT_PLAIN)
+            .body(query)
+            .retrieve()
+            .toEntity(entityClass);
 
         if (responseEntity.getStatusCode() != HttpStatus.OK) {
             throw new IGDBException("Error on calling " + endpoint);
@@ -117,32 +117,32 @@ public class MainIGDBService implements IGDBService {
     @Override
     public IGDBPlatformDto[] getPlatformsByName(String name) throws IGDBException {
         return call(
-                "/platforms",
-                String.format("fields id; where name = \"%s\";", name),
-                IGDBPlatformDto[].class
+            "/platforms",
+            String.format("fields id; where name = \"%s\";", name),
+            IGDBPlatformDto[].class
         );
     }
 
     @Override
     public IGDBGameCountDto getGameCountByPlatformId(long platformId) throws IGDBException {
         return call(
-                "/games/count",
-                String.format("where platforms = (%d);", platformId),
-                IGDBGameCountDto.class
+            "/games/count",
+            String.format("where platforms = (%d);", platformId),
+            IGDBGameCountDto.class
         );
     }
 
     @Override
     public IGDBGameDto[] getGamesByPlatformId(long platformId, long limit, long offset) throws IGDBException {
         return call(
-                "/games",
-                String.format(
-                        "fields id, name, summary, storyline; where platforms = (%d); limit %d; offset %d;",
-                        platformId,
-                        limit,
-                        offset
-                ),
-                IGDBGameDto[].class
+            "/games",
+            String.format(
+                "fields id, name, summary, storyline; where platforms = (%d); limit %d; offset %d;",
+                platformId,
+                limit,
+                offset
+            ),
+            IGDBGameDto[].class
         );
     }
 }

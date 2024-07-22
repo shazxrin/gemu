@@ -1,4 +1,4 @@
-package me.shazxrin.gemu.model;
+package me.shazxrin.gemu.entity;
 
 import jakarta.persistence.*;
 import org.hibernate.proxy.HibernateProxy;
@@ -16,7 +16,8 @@ public class Platform extends BaseEntity {
 
     private String name;
 
-    public Platform() { }
+    public Platform() {
+    }
 
     public Platform(long externalId, String name) {
         this.externalId = externalId;
@@ -51,8 +52,12 @@ public class Platform extends BaseEntity {
     public final boolean equals(Object o) {
         if (this == o) return true;
         if (o == null) return false;
-        Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
-        Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
+        Class<?> oEffectiveClass = o instanceof HibernateProxy
+                                   ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass()
+                                   : o.getClass();
+        Class<?> thisEffectiveClass = this instanceof HibernateProxy
+                                      ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass()
+                                      : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
         Platform platform = (Platform) o;
         return getId() != null && Objects.equals(getId(), platform.getId());
@@ -60,6 +65,8 @@ public class Platform extends BaseEntity {
 
     @Override
     public final int hashCode() {
-        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+        return this instanceof HibernateProxy
+               ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode()
+               : getClass().hashCode();
     }
 }

@@ -1,6 +1,6 @@
 package me.shazxrin.gemu.igdb.repository;
 
-import me.shazxrin.gemu.igdb.model.IGDBInfo;
+import me.shazxrin.gemu.igdb.entity.IGDBInfo;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

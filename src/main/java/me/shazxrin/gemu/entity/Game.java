@@ -1,4 +1,4 @@
-package me.shazxrin.gemu.model;
+package me.shazxrin.gemu.entity;
 
 import jakarta.persistence.*;
 import org.hibernate.proxy.HibernateProxy;
@@ -26,13 +26,14 @@ public class Game extends BaseEntity {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "game_platforms",
-            joinColumns = @JoinColumn(name = "game_id"),
-            inverseJoinColumns = @JoinColumn(name = "platforms_id")
+        name = "game_platforms",
+        joinColumns = @JoinColumn(name = "game_id"),
+        inverseJoinColumns = @JoinColumn(name = "platforms_id")
     )
     private Set<Platform> platforms = new LinkedHashSet<>();
 
-    public Game() { }
+    public Game() {
+    }
 
     public Game(Long externalId, String name, String description, Set<Platform> platforms) {
         this.externalId = externalId;
@@ -85,8 +86,12 @@ public class Game extends BaseEntity {
     public final boolean equals(Object o) {
         if (this == o) return true;
         if (o == null) return false;
-        Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
-        Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
+        Class<?> oEffectiveClass = o instanceof HibernateProxy
+                                   ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass()
+                                   : o.getClass();
+        Class<?> thisEffectiveClass = this instanceof HibernateProxy
+                                      ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass()
+                                      : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
         Platform platform = (Platform) o;
         return getId() != null && Objects.equals(getId(), platform.getId());
@@ -94,6 +99,8 @@ public class Game extends BaseEntity {
 
     @Override
     public final int hashCode() {
-        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+        return this instanceof HibernateProxy
+               ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode()
+               : getClass().hashCode();
     }
 }

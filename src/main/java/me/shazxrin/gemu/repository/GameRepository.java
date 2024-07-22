@@ -1,6 +1,6 @@
 package me.shazxrin.gemu.repository;
 
-import me.shazxrin.gemu.model.Game;
+import me.shazxrin.gemu.entity.Game;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

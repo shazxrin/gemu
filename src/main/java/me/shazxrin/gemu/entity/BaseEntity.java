@@ -1,4 +1,4 @@
-package me.shazxrin.gemu.model;
+package me.shazxrin.gemu.entity;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

@@ -11,10 +11,9 @@ class WebMvcConfiguration implements WebMvcConfigurer {
         // Add resource handler that handles routes not handled by REST controllers.
         // The resource handler handles routes used for frontend SPA.
         registry
-                .addResourceHandler("/**")
-                .addResourceLocations("classpath:/public/**")
-                .resourceChain(true)
-                .addResolver(new SpaPathResourceResolver());
-
+            .addResourceHandler("/**")
+            .addResourceLocations("classpath:/public/**")
+            .resourceChain(true)
+            .addResolver(new SpaPathResourceResolver());
     }
 }

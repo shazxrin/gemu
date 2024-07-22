@@ -3,11 +3,7 @@ package me.shazxrin.gemu.service.library;
 import me.shazxrin.gemu.exception.NotFoundException;
 import me.shazxrin.gemu.exception.StateException;
 import me.shazxrin.gemu.exception.ValidationException;
-import me.shazxrin.gemu.model.Game;
-import me.shazxrin.gemu.model.Platform;
-import me.shazxrin.gemu.model.LibraryGame;
-import me.shazxrin.gemu.model.LibraryGameOwnership;
-import me.shazxrin.gemu.model.LibraryGameStatus;
+import me.shazxrin.gemu.entity.*;
 import me.shazxrin.gemu.repository.GameRepository;
 import me.shazxrin.gemu.repository.LibraryGameRepository;
 import me.shazxrin.gemu.repository.PlatformRepository;
@@ -25,9 +21,9 @@ public class MainLibraryGameService implements LibraryGameService {
     private final PlatformRepository platformRepository;
 
     public MainLibraryGameService(
-            LibraryGameRepository libraryGameRepository,
-            GameRepository gameRepository,
-            PlatformRepository platformRepository
+        LibraryGameRepository libraryGameRepository,
+        GameRepository gameRepository,
+        PlatformRepository platformRepository
     ) {
         this.libraryGameRepository = libraryGameRepository;
         this.gameRepository = gameRepository;
@@ -36,12 +32,12 @@ public class MainLibraryGameService implements LibraryGameService {
 
     @Override
     public void addGameToLibrary(
-            String gameId,
-            String platformId,
-            LibraryGameStatus status,
-            LibraryGameOwnership ownership,
-            int hoursPlayed,
-            int progress
+        String gameId,
+        String platformId,
+        LibraryGameStatus status,
+        LibraryGameOwnership ownership,
+        int hoursPlayed,
+        int progress
     ) throws ValidationException, StateException {
         boolean isLibraryGameExists = libraryGameRepository.existsByGameId(gameId);
         if (isLibraryGameExists) {
@@ -55,12 +51,12 @@ public class MainLibraryGameService implements LibraryGameService {
         Platform platform = platformOpt.orElseThrow(() -> new ValidationException("Platform does not exist."));
 
         LibraryGame libraryGameToAdd = new LibraryGame(
-               game,
-               platform,
-               status,
-               ownership,
-               hoursPlayed,
-               progress
+            game,
+            platform,
+            status,
+            ownership,
+            hoursPlayed,
+            progress
         );
         libraryGameRepository.save(libraryGameToAdd);
     }
@@ -82,12 +78,12 @@ public class MainLibraryGameService implements LibraryGameService {
 
     @Override
     public void updateGameInLibrary(
-            String gameId,
-            String platformId,
-            LibraryGameStatus status,
-            LibraryGameOwnership ownership,
-            int hoursPlayed,
-            int progress
+        String gameId,
+        String platformId,
+        LibraryGameStatus status,
+        LibraryGameOwnership ownership,
+        int hoursPlayed,
+        int progress
     ) throws NotFoundException, ValidationException {
         Optional<LibraryGame> libraryGameOpt = libraryGameRepository.findByGameId(gameId);
         LibraryGame libraryGame = libraryGameOpt.orElseThrow(() -> new NotFoundException("Library game not found."));
