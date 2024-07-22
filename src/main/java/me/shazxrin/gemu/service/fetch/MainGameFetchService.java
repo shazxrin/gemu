@@ -1,4 +1,4 @@
-package me.shazxrin.gemu.service;
+package me.shazxrin.gemu.service.fetch;
 
 import me.shazxrin.gemu.igdb.dto.IGDBGameCountDto;
 import me.shazxrin.gemu.igdb.dto.IGDBGameDto;
@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class GameFetchService {
-    private static final Logger log = LoggerFactory.getLogger(GameFetchService.class);
+public class MainGameFetchService implements GameFetchService {
+    private static final Logger log = LoggerFactory.getLogger(MainGameFetchService.class);
 
     private final IGDBService igdbService;
     private final GameRepository gameRepository;
@@ -29,7 +29,7 @@ public class GameFetchService {
     private final List<String> platformNames;
 
     @Autowired
-    public GameFetchService(
+    public MainGameFetchService(
             IGDBService igdbService,
             GameRepository gameRepository,
             PlatformRepository platformRepository,
@@ -41,6 +41,7 @@ public class GameFetchService {
         this.platformNames = platformNames;
     }
 
+    @Override
     @Async
     public void fetchGames() {
         for (String platformName : platformNames) {
